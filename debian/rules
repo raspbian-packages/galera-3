@@ -20,9 +20,10 @@ endif
 
 # Run tests by default
 ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
-	SCONS_ARGS += tests=1
+	#SCONS_ARGS += tests=1
 endif
 
+SCONS_ARGS += tests=0
 
 override_dh_auto_build:
 	# Print build env info to help debug builds on different platforms
@@ -43,6 +44,13 @@ override_dh_installinit-arch:
 override_dh_strip:
 	dh_strip -pgalera-3 --dbg-package=galera-3-dbg
 	dh_strip -pgalera-arbitrator-3 --dbg-package=galera-arbitrator-3-dbg
+
+override_dh_auto_clean:
+	find . -name '*.o' -delete
+	find . -name '*.os' -delete
+	find . -name '*.a' -delete
+	rm -rf .sconf_temp FAIL .sconsign.dblite galera/tests/galera_check galerautils/tests/gu_tests *.log
+	dh_auto_clean
 
 %:
 	dh $@
