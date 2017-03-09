@@ -72,7 +72,8 @@ namespace gu
             gu_throw_error(EMSGSIZE) << ret << " > " << buflen;
         }
         void* const pos(reinterpret_cast<byte_t*>(buf) + offset);
-        *reinterpret_cast<TO*>(pos) = htog<TO>(f);
+        TO t_aligned = htog<TO>(f);
+        memcpy(reinterpret_cast<TO*>(pos), &t_aligned, sizeof(t_aligned));
         return ret;
     }
 
@@ -91,7 +92,10 @@ namespace gu
             gu_throw_error(EMSGSIZE) << ret << " > " << buflen;
         }
         const void* const pos(reinterpret_cast<const byte_t*>(buf) + offset);
-        t = gtoh<FROM>(*reinterpret_cast<const FROM*>(pos));
+        FROM f_aligned;
+        memcpy(&f_aligned, reinterpret_cast<const FROM*>(pos),
+               sizeof(f_aligned));
+        t = gtoh<FROM>(f_aligned);
         return ret;
     }
 
