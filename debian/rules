@@ -19,10 +19,10 @@ ifneq (,$(filter verbose,$(DEB_BUILD_OPTIONS)))
 endif
 
 # Run tests by default
-ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
-	SCONS_ARGS += tests=1 deterministic_tests=1
-endif
-
+#ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
+#	SCONS_ARGS += tests=1 deterministic_tests=1
+#endif
+SCONS_ARGS += tests=0 deterministic_tests=0
 
 override_dh_auto_build:
 	# Print build env info to help debug builds on different platforms
@@ -46,5 +46,18 @@ override_dh_strip:
 
 %:
 	dh $@
+
+override_dh_auto_clean:
+	dh_auto_clean
+	rm -f `find . -name *.o`
+	rm -f `find . -name *.a`
+	rm -f `find . -name *.os`
+	rm -rf .sconf_temp
+	rm -f FAIL  .sconsign.dblite
+	rm -f galera/tests/galera_check
+	rm -f galerautils/tests/gu_tests
+	rm -f galerautils/tests/gu_tests++
+	rm -f config.log galera/tests/galera_check.passed galera_check.log galerautils/tests/gu_tests.passed gu_tests++.log gu_tests.log
+
 
 .PHONY: override_dh_strip
