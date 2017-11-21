@@ -174,7 +174,8 @@ gcs_state_msg_write (void* buf, const gcs_state_msg_t* state)
     strcpy (name,     state->name);
     strcpy (inc_addr, state->inc_addr);
     *appl_proto_ver = state->appl_proto_ver; // in preparation for V1
-    *cached         = htog64(state->cached);
+    memcpy(cached, &state->cached, sizeof(state->cached));
+    *cached         = htog64(*cached);
     *desync_count   = htog32(state->desync_count);
 
     return ((uint8_t*)(desync_count + 1) - (uint8_t*)buf);
@@ -201,7 +202,8 @@ gcs_state_msg_read (const void* const buf, ssize_t const buf_len)
     int64_t* cached_ptr = (int64_t*)(appl_ptr + 1);
     if (*version >= 3) {
         assert(buf_len >= (uint8_t*)(cached_ptr + 1) - (uint8_t*)buf);
-        cached = gtoh64(*cached_ptr);
+        memcpy(&cached, cached_ptr, sizeof(cached));
+        cached = gtoh64(cached);
     }
 
     int32_t  desync_count = 0;

@@ -165,9 +165,8 @@ WriteSetNG::Header::Checksum::verify (Version           ver,
 
     compute (ptr, csize, check);
 
-    hcheck = *(reinterpret_cast<const type_t*>(
-                   reinterpret_cast<const gu::byte_t*>(ptr) + csize
-                   ));
+    memcpy(&hcheck, reinterpret_cast<const gu::byte_t*>(ptr)+csize,
+           sizeof(type_t));
 
     if (gu_likely(check == hcheck)) return;
 
