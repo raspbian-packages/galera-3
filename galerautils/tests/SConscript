@@ -25,7 +25,6 @@ gu_tests_srcs = Split('''
                         gu_fifo_test.c
                         gu_uuid_test.c
                         gu_dbug_test.c
-                        gu_lock_step_test.c
                         gu_str_test.c
                         gu_utils_test.c
                       ''')
