@@ -41,7 +41,6 @@ gcs_tests_sources = Split('''
                              gcs_group_test.cpp
                              gcs_memb_test.cpp
                              ../gcs_group.cpp
-                             gcs_core_test.cpp
                              ../gcs_core.cpp
                              ../gcs_dummy.cpp
                              ../gcs_msg_type.cpp
