@@ -20,7 +20,6 @@
 #include "gcs_memb_test.hpp"
 #include "gcs_group_test.hpp"
 #include "gcs_backend_test.hpp"
-#include "gcs_core_test.hpp"
 #include "gcs_fc_test.hpp"
 
 typedef Suite *(*suite_creator_t)(void);
@@ -37,7 +36,6 @@ static suite_creator_t suites[] =
 	gcs_memb_suite,
 	gcs_group_suite,
 	gcs_backend_suite,
-	gcs_core_suite,
 	gcs_fc_suite,
 	NULL
     };
