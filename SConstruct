@@ -44,7 +44,15 @@ def read_first_line(cmd):
     return line
 
 sysname = os.uname()[0].lower()
-machine = platform.machine()
+
+# Use host architecture is available as a deb build environment variable
+machine = os.environ.get('DEB_HOST_ARCH', None)
+
+# Reading arch from the running kernel can lead to the wrong value if build in a
+# container or when cross-compiling, so use this only as a fallback
+if machine == None:
+    machine = platform.machine()
+
 bits = ARGUMENTS.get('bits', platform.architecture()[0])
 print('Host: ' + sysname + ' ' + machine + ' ' + bits)
 
