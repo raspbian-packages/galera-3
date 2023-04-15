@@ -4,7 +4,7 @@
 # https://wiki.debian.org/Hardening
 export DEB_BUILD_MAINT_OPTIONS = hardening=+all
 DPKG_EXPORT_BUILDFLAGS = 1
-# Include all defaults, includes buildflags.mk
+# Include all defaults, including buildflags.mk
 include /usr/share/dpkg/default.mk
 
 # Set unit test timeout multiplier to make slow tests
@@ -18,11 +18,5 @@ override_dh_auto_test:
 override_dh_installinit-arch:
 	dh_installinit -n --name=garb -- defaults 18 22
 
-override_dh_strip:
-	dh_strip -pgalera-3 --dbg-package=galera-3-dbg
-	dh_strip -pgalera-arbitrator-3 --dbg-package=galera-arbitrator-3-dbg
-
 %:
-	dh $@ --parallel
-
-.PHONY: override_dh_strip
+	dh $@
